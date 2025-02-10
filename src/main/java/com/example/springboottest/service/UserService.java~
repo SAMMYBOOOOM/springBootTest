@@ -98,6 +98,6 @@ public class UserService {
         user.setName(user.getUsername());
         userMapper.insert(user);
 
-        return user;
+        return null;
     }
 }

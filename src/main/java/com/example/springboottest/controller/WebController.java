@@ -5,31 +5,43 @@
  */
 package com.example.springboottest.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.example.springboottest.common.Result;
+import com.example.springboottest.entity.User;
+import com.example.springboottest.service.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/web")
+//@RequestMapping("/web")
 public class WebController {
 
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)  // /web/hello
+    @Resource
+    UserService userService;
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)  // /web/hello
     public Result hello(){
-        return Result.success("Hello world success!");
+        return Result.success("success");
     }
 
-    @PostMapping(value = "/post")  // /web/post
-    public Result post(@RequestBody Obj obj){
-        System.out.println(obj.getName() == null ? "Is null not empty" : obj.getName().isEmpty());
-        return Result.success(obj);
+    @PostMapping("/login")
+    public Result login(@RequestBody User user){
+        if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
+            return Result.error("Username or password cannot be empty!");
+        }
+        user = userService.login(user);
+        return Result.success(user);
     }
 
-    @PutMapping(value = "/put")  // /web/put
-    public Result put(@RequestBody Obj obj){
-        return Result.success(obj);
-    }
-
-    @DeleteMapping(value = "/delete/{id}")  // /web/delete
-    public Result delete(@PathVariable Integer id){
-        return Result.success(id);
+    @PostMapping("/register")
+    public Result register(@RequestBody User user){
+        if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
+            return Result.error("Username or password cannot be empty!");
+        }
+        if(user.getUsername().length() > 10 || user.getPassword().length() > 20) {
+            return Result.error("Username or password too long!");
+        }
+        user = userService.register(user);
+        return Result.success(user);
     }
 }
