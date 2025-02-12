@@ -6,6 +6,7 @@
 package com.example.springboottest.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.springboottest.common.AuthAccess;
 import com.example.springboottest.common.Result;
 import com.example.springboottest.entity.User;
 import com.example.springboottest.service.UserService;
@@ -19,11 +20,13 @@ public class WebController {
     @Resource
     UserService userService;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)  // /web/hello
+    @AuthAccess
+    @GetMapping("/")  // /web/hello
     public Result hello(){
         return Result.success("success");
     }
 
+    // Exclude login from interceptor at InterceptorConfig.java
     @PostMapping("/login")
     public Result login(@RequestBody User user){
         if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
@@ -33,6 +36,7 @@ public class WebController {
         return Result.success(user);
     }
 
+    @AuthAccess // Exclude register from interceptor
     @PostMapping("/register")
     public Result register(@RequestBody User user){
         if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {

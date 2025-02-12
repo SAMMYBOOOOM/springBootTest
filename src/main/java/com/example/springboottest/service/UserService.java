@@ -10,6 +10,7 @@ import com.example.springboottest.GlobalException.ServiceException;
 import com.example.springboottest.common.Page;
 import com.example.springboottest.entity.User;
 import com.example.springboottest.mapper.UserMapper;
+import com.example.springboottest.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,7 +86,9 @@ public class UserService {
         if (!user.getPassword().equals(dbUser.getPassword())) {
             throw new ServiceException("Incorrect password!");
         }
-
+        // Create token
+        String token = TokenUtils.createToken(dbUser.getId().toString(), dbUser.getPassword());
+        dbUser.setToken(token);
         return dbUser;
     }
 

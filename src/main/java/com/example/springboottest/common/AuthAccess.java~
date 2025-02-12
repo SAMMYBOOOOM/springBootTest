@@ -1,0 +1,4 @@
+package com.example.springboottest.common;
+
+public @interface AuthAccess {
+}
