@@ -8,8 +8,8 @@ import java.util.List;
 @Mapper // Inject to Spring container
 public interface UserMapper {
 
-    @Insert("insert into user (username, password, name, phone, email, address, avatar, role)" +
-            "values (#{username}, #{password}, #{name}, #{phone}, #{email}, #{address}, #{avatar}, #{role});")
+    @Insert("insert into user (username, password, name, phone, email, address, avatar)" +
+            "values (#{username}, #{password}, #{name}, #{phone}, #{email}, #{address}, #{avatar});")
     void insert(User user);
 
     @Update("update user set username=#{username}, password=#{password}, name=#{name}, phone=#{phone}, " +
