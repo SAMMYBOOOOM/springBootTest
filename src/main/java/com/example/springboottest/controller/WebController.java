@@ -48,4 +48,15 @@ public class WebController {
         user = userService.register(user);
         return Result.success(user);
     }
+
+    // Reset password
+    @AuthAccess
+    @PutMapping("/password")
+    public Result password(@RequestBody User user){
+        if(StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPhone())) {
+            return Result.error("Username or phone cannot be empty!");
+        }
+        userService.resetPassword(user);
+        return Result.success();
+    }
 }

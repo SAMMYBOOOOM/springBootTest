@@ -103,4 +103,17 @@ public class UserService {
 
         return user;
     }
+
+    public void resetPassword(User user) {
+        User dbUser = userMapper.selectByUsername(user.getUsername());
+        if(dbUser == null){
+            // throw custom error message
+            throw new ServiceException("Account does not exist!");
+        }
+        if(!user.getPhone().equals(dbUser.getPhone())) {
+            throw new ServiceException("Incorrect information!");
+        }
+        dbUser.setPassword("123");
+        userMapper.updateUser(dbUser);
+    }
 }
