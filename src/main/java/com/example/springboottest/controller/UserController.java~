@@ -55,7 +55,7 @@ public class UserController {
     public Result batchDelete(@PathVariable Integer id) {
         User currentUser = TokenUtils.getCurrentUser();
         if (id.equals(currentUser.getId())) {
-            throw new ServiceException("Cannot delete current user!");
+            throw new ServiceException("Cannot delete yourself!");
         }
         userService.removeById(id);
         return Result.success();
@@ -66,7 +66,7 @@ public class UserController {
     public Result batchDelete(@RequestBody List<Integer> ids) {
         User currentUser = TokenUtils.getCurrentUser();
         if (currentUser != null && currentUser.getId() != null && ids.contains(currentUser.getId())) {
-            throw new ServiceException("Deletion contains current user!");
+            throw new ServiceException("Cannot delete yourself!");
         }
         userService.removeBatchByIds(ids);
         return Result.success();
