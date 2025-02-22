@@ -31,7 +31,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         // Seven-step approach
         String token = request.getHeader("token");  // Attribute from the header
         if (StrUtil.isBlank(token)) {
-            token = request.getHeader("token"); // url parameter ?token=xxxx
+            token = request.getParameter("token"); // url parameter ?token=xxxx
         }
         // if not using the method then exclude from intercept
         if (handler instanceof HandlerMethod) {
