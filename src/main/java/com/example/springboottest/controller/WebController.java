@@ -59,4 +59,12 @@ public class WebController {
         userService.resetPassword(user);
         return Result.success();
     }
+
+    // Verify user token
+    @GetMapping("/auth/verify")
+    public Result verifyToken() {
+        // The JwtInterceptor will automatically verify the token
+        // If we reach this point, the token is valid
+        return Result.success();
+    }
 }
